@@ -52,7 +52,7 @@ async def _(
     else:
         query_lots_data["query_user_id"].add(user_id)
         # 增加一个无理数用来保证尽可能不会让结果相同
-        # 因167342993是一个无理数 且datetime_ymd 比 167342993大的多
+        # 因167342993是一个素数 且datetime_ymd 比 167342993大的多
         # 所以不可能出现因时间原因导致大范围抽签结果相同的情况出现
         # 在几年内是不会出现重复问题的，够用
         lots_info = data.get_lots_text_info((datetime_ymd * user_id) % 167342993)
