@@ -3,7 +3,6 @@ import os.path
 from typing import Optional
 from nonebot.log import logger
 
-# emoji_key_data的数据是字典嵌套字典，每一层字典的key都可能是左emojiCode或右emojiCode
 emoji_key_data = {}
 
 
