@@ -45,20 +45,21 @@ async def _(
     if query_lots_data["query_date_ymd"] != datetime_ymd:
         query_lots_data["query_user_id"].clear()
         query_lots_data["query_date_ymd"] = datetime_ymd
+
+    # 增加一个无理数用来保证尽可能不会让结果相同
+    # 因167342993是一个素数 且datetime_ymd 比 167342993大的多
+    # 所以不可能出现因时间原因导致大范围抽签结果相同的情况出现
+    # 在几年内是不会出现重复问题的，够用
+    lots_info = data.get_lots_text_info((datetime_ymd * user_id) % 167342993)
+    lots_str = f"抽到第{lots_info['value']}签\n" \
+               f"签名：{lots_info['name']}\n" \
+               f"签语：{lots_info['title']}\n" \
+               f"解签：{lots_info['meaning']}"
     if user_id in query_lots_data["query_user_id"]:
         # 已经抽签了不能再重复抽
-        msg = ProtocolAdapter.MS.reply(event) + ProtocolAdapter.MS.text(pre_str + "今日已进行抽签，无法再次抽签！")
-        await query_lots.finish(msg)
+        msg = ProtocolAdapter.MS.reply(event) + ProtocolAdapter.MS.text(pre_str + "今日已抽过签！\n\n")
     else:
         query_lots_data["query_user_id"].add(user_id)
-        # 增加一个无理数用来保证尽可能不会让结果相同
-        # 因167342993是一个素数 且datetime_ymd 比 167342993大的多
-        # 所以不可能出现因时间原因导致大范围抽签结果相同的情况出现
-        # 在几年内是不会出现重复问题的，够用
-        lots_info = data.get_lots_text_info((datetime_ymd * user_id) % 167342993)
-        lots_str = f"抽到第{lots_info['value']}签\n" \
-                   f"签名：{lots_info['name']}\n" \
-                   f"签语：{lots_info['title']}\n" \
-                   f"解签：{lots_info['meaning']}"
-        msg = ProtocolAdapter.MS.reply(event) + ProtocolAdapter.MS.text(pre_str + lots_str)
-        await query_lots.finish(msg)
+        msg = ProtocolAdapter.MS.reply(event) + ProtocolAdapter.MS.text(pre_str)
+    pre_str += lots_str
+    await query_lots.finish(msg)
