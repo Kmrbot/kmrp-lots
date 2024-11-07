@@ -57,9 +57,9 @@ async def _(
                f"解签：{lots_info['meaning']}"
     if user_id in query_lots_data["query_user_id"]:
         # 已经抽签了不能再重复抽
-        msg = ProtocolAdapter.MS.reply(event) + ProtocolAdapter.MS.text(pre_str + "今日已抽过签！\n\n")
+        msg = ProtocolAdapter.MS.reply(event) + ProtocolAdapter.MS.text(pre_str + "今日已抽过签！\n\n今日已")
     else:
         query_lots_data["query_user_id"].add(user_id)
         msg = ProtocolAdapter.MS.reply(event) + ProtocolAdapter.MS.text(pre_str)
-    pre_str += lots_str
+    msg += lots_str
     await query_lots.finish(msg)
