@@ -1,6 +1,5 @@
 import json
 import os.path
-from typing import Optional
 from nonebot.log import logger
 
 emoji_key_data = {}
@@ -11,7 +10,7 @@ def load_lots_data():
         return json.load(f)
 
 
-def get_lots_pre(pre_name: str) -> Optional[str]:
+def get_lots_pre(pre_name: str) -> str | None:
     lots_data = load_lots_data()
     # 这里为了可以热更 就遍历了 反正也没多少
     for pre_info in lots_data.get("pre", []):
