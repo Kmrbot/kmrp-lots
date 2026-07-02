@@ -5,8 +5,8 @@ from protocol_adapter.protocol_adapter import ProtocolAdapter
 from nonebot import on_regex
 from . import data
 from nonebot.params import RegexGroup
-from utils.permission import white_list_handle
-from utils import group_only, get_time_zone
+from utils import get_time_zone
+from utils.permission import group_only, white_list_handle
 
 query_lots = on_regex(
     pattern=r"^(.*)抽签$",
