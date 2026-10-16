@@ -1,12 +1,22 @@
 import json
-import os.path
+from pathlib import Path
+
 from nonebot.log import logger
+
+from utils.config import ensure_plugin_config_from_template
+
+__TEMPLATE_PATH = Path(__file__).with_name("lots_data_template.json")
 
 emoji_key_data = {}
 
 
 def load_lots_data():
-    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "lots_data.json"), encoding="utf-8") as f:
+    path = ensure_plugin_config_from_template(
+        "kmrp-lots",
+        "lots_data.json",
+        __TEMPLATE_PATH,
+    )
+    with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 
